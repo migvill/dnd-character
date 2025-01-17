@@ -18,6 +18,7 @@ function App() {
                 if (data.body && data.body.characters) {
                     console.log(data.body.characters)
                     setCharacters(data.body.characters)
+                    setIsSaved(true)
                 } else {
                     throw new Error('Unexpected response structure')
                 }
