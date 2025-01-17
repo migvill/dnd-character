@@ -1,1 +1,52 @@
-/* TODO */
+.character {
+  padding: 20px;
+}
+
+.character-attributes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.character-attribute-row {
+  display: flex;
+}
+
+.character-attribute-name {
+  text-align: right;
+  font-weight: bold;
+  width: 120px;
+}
+
+.character-attribute-value {
+  width: 30px;
+  text-align: center;
+}
+
+.character-classes {
+  display: flex;
+  gap: 10px;
+}
+
+.character-class {
+  border: 1px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
+.character-class.meets {
+  font-weight: bold;
+  background-color: green;
+}
+
+.character-class:hover {
+  border: 1px solid #fff;
+}
+
+.character-class-requirements {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #fff;
+  border-radius: 5px;
+}

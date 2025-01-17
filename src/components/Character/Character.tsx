@@ -21,6 +21,18 @@ function Character() {
         })
     }
 
+    function meetsClassRequirements(className: Class): boolean {
+        return Object.entries(CLASS_LIST[className]).every(([key, val]) => attributeLevel[key as keyof Attributes] >= val)
+    }
+
+    function selectClass(className: Class) {
+        if (currentClass === className) {
+            setCurrentClass(null)
+        } else {
+            setCurrentClass(className)
+        }
+    }
+
     return (
         <div className="character">
             <h3>Attributes</h3>
@@ -28,7 +40,7 @@ function Character() {
                 {
                     ATTRIBUTE_LIST.map((attr, idx) => (
                         <div className="character-attribute-row" key={idx}>
-                            <span>{attr}: { attributeLevel[attr] }</span>
+                            <span className="character-attribute-name">{attr}:</span> <span className="character-attribute-value">{ attributeLevel[attr] }</span>
                             <button onClick={() => changeAttributeLevel(attr as keyof Attributes, -1)}>-</button>
                             <button onClick={() => changeAttributeLevel(attr as keyof Attributes, 1)}>+</button>
                         </div>
@@ -38,11 +50,14 @@ function Character() {
             <h3>Classes</h3>
             <div className="character-classes">
                 {
-                    Object.keys(CLASS_LIST).map((className) => (
-                        <div className="character-class" key={className} onClick={() => setCurrentClass(className as Class)}>
-                            {className}
-                        </div>
-                    ))
+                    Object.keys(CLASS_LIST).map((className) => {
+                        const classRequirement = meetsClassRequirements(className as Class) ? 'meets' : ''
+                        return (
+                            <div className={`character-class ${classRequirement}`} key={className} onClick={() => selectClass(className as Class)}>
+                                {className}
+                            </div>
+                        )
+                    })
                 }
             </div>
 
