@@ -1,3 +1,5 @@
+import { SKILL_LIST } from "./consts";
+
 export type Attributes = {
     Strength: number;
     Dexterity: number;
@@ -8,3 +10,5 @@ export type Attributes = {
 };
 
 export type Class = "Barbarian" | "Wizard" | "Bard";
+
+export type Skill = Record<typeof SKILL_LIST[number]['name'], number>;

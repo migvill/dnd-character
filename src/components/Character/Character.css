@@ -2,6 +2,7 @@
   padding: 20px;
 }
 
+/* ATTRIBUTES */
 .character-attributes {
   display: flex;
   flex-direction: column;
@@ -16,7 +17,7 @@
 .character-attribute-name {
   text-align: right;
   font-weight: bold;
-  width: 120px;
+  width: 150px;
 }
 
 .character-attribute-value {
@@ -28,6 +29,7 @@
   color: green;
 }
 
+/* CLASS */
 .character-classes {
   display: flex;
   gap: 10px;
@@ -54,4 +56,27 @@
   padding: 10px;
   border: 1px solid #fff;
   border-radius: 5px;
+}
+
+/* SKILLS */
+.character-skills {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.character-skill-row {
+  display: flex;
+  gap: 10px;
+}
+
+.character-skill-name {
+  text-align: right;
+  font-weight: bold;
+  width: 150px;
+}
+
+.character-skill-value {
+  width: 50px;
+  text-align: center;
 }
