@@ -45,6 +45,12 @@
   }
 }
 
+.character-controls {
+  justify-content: center;
+  display: flex;
+  gap: 10px;
+  margin: 10px;
+}
 
 .character-wrapper {
   margin: 1rem;

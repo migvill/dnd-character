@@ -96,8 +96,10 @@ function App() {
                 <h1>RPG Character Builder</h1>
             </header>
             <section className="App-section">
-                <button onClick={addCharacter}>Add Character</button>
-                <button onClick={saveCharacters} disabled={isSaved}>Save Characters</button>
+                <div className="character-controls">
+                    <button onClick={addCharacter}>Add Character</button>
+                    <button onClick={saveCharacters} disabled={isSaved}>Save Characters</button>
+                </div>
                 {characters.map((char, index) => (
                     <div key={char.id} className="character-wrapper">
                         <h2>Character {index + 1}</h2>
