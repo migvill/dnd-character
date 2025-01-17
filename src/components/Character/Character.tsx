@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './Character.css'
+import './Character.css';
 import { ATTRIBUTE_LIST, CLASS_LIST } from '../../consts';
 import { Attributes, Class } from '../../types';
 
@@ -26,18 +26,14 @@ function Character() {
     }
 
     function selectClass(className: Class) {
-        if (currentClass === className) {
-            setCurrentClass(null)
-        } else {
-            setCurrentClass(className)
-        }
+        setCurrentClass(currentClass === className ? null : className)
     }
 
     function calculateModifier(attributeValue: number): string {
         // +1 for each 2 points above 10
         const base = attributeValue - 10
         const modifier = Math.floor(base / 2)
-        return `${modifier > 0 ? '+' : ''}${modifier}`
+        return modifier > 0 ? `+${modifier}` : `${modifier}`
     }
 
     return (
@@ -60,9 +56,12 @@ function Character() {
             <div className="character-classes">
                 {
                     Object.keys(CLASS_LIST).map((className) => {
-                        const classRequirement = meetsClassRequirements(className as Class) ? 'meets' : ''
+                        const meetsRequirement = meetsClassRequirements(className as Class)
                         return (
-                            <div className={`character-class ${classRequirement}`} key={className} onClick={() => selectClass(className as Class)}>
+                            <div
+                                className={`character-class ${meetsRequirement ? 'meets' : ''}`}
+                                key={className}
+                                onClick={() => selectClass(className as Class)}>
                                 {className}
                             </div>
                         )
@@ -82,7 +81,6 @@ function Character() {
             )}
         </div>
     )
-
 }
 
 export default Character
