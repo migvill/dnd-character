@@ -10,6 +10,7 @@
 
 .character-attribute-row {
   display: flex;
+  gap: 10px;
 }
 
 .character-attribute-name {
@@ -19,8 +20,12 @@
 }
 
 .character-attribute-value {
-  width: 30px;
+  width: 50px;
   text-align: center;
+}
+
+.character-attribute-modifier {
+  color: green;
 }
 
 .character-classes {

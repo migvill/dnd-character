@@ -33,6 +33,13 @@ function Character() {
         }
     }
 
+    function calculateModifier(attributeValue: number): string {
+        // +1 for each 2 points above 10
+        const base = attributeValue - 10
+        const modifier = Math.floor(base / 2)
+        return `${modifier > 0 ? '+' : ''}${modifier}`
+    }
+
     return (
         <div className="character">
             <h3>Attributes</h3>
@@ -40,7 +47,9 @@ function Character() {
                 {
                     ATTRIBUTE_LIST.map((attr, idx) => (
                         <div className="character-attribute-row" key={idx}>
-                            <span className="character-attribute-name">{attr}:</span> <span className="character-attribute-value">{ attributeLevel[attr] }</span>
+                            <span className="character-attribute-name">{attr}:</span>
+                            <span className="character-attribute-value">{ attributeLevel[attr] }</span>
+                            <span className="character-attribute-modifier">(Modifier: {calculateModifier(attributeLevel[attr])})</span>
                             <button onClick={() => changeAttributeLevel(attr as keyof Attributes, -1)}>-</button>
                             <button onClick={() => changeAttributeLevel(attr as keyof Attributes, 1)}>+</button>
                         </div>
