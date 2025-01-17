@@ -1,23 +1,14 @@
 import { useState } from 'react';
 import './Character.css';
 import { ATTRIBUTE_LIST, CLASS_LIST, SKILL_LIST } from '../../consts';
-import { Attributes, Class, Skill } from '../../types';
+import { Attributes, Class, DndCharacterData, Skill } from '../../types';
 
-function Character() {
-    const [attributeLevel, setAttributeLevel] = useState<Attributes>(
-        ATTRIBUTE_LIST.reduce((acc, curr) => {
-            acc[curr] = 10
-            return acc
-        }, {} as Attributes)
-    )
+function Character({ data, onUpdate }: CharacterProps) {
+    const { attributes, skills } = data;
+
+    const [attributeState, setAttributeLevel] = useState<Attributes>(attributes);
     const [currentClass, setCurrentClass] = useState<Class | null>(null)
-
-    const [skills, setSkills] = useState<Skill>(
-        SKILL_LIST.reduce((acc, { name }) => {
-            acc[name] = 0
-            return acc
-        }, {} as Skill)
-    )
+    const [skillsState, setSkillsState] = useState<Skill>(skills);
 
     function changeAttributeLevel(attribute: keyof Attributes, delta: number) {
         setAttributeLevel((prev) => {
@@ -29,7 +20,7 @@ function Character() {
     }
 
     function meetsClassRequirements(className: Class): boolean {
-        return Object.entries(CLASS_LIST[className]).every(([key, val]) => attributeLevel[key as keyof Attributes] >= val)
+        return Object.entries(CLASS_LIST[className]).every(([key, val]) => attributeState[key as keyof Attributes] >= val)
     }
 
     function selectClass(className: Class) {
@@ -43,12 +34,12 @@ function Character() {
     }
     
     // Characters have 10 + (4 * Intelligence Modifier) points to spend between skills
-    const totalPointsAvailable = 10 + (4 * calculateModifier(attributeLevel.Intelligence))
-    const totalPointsSpent = Object.values(skills).reduce((sum, points) => sum + points, 0)
+    const totalPointsAvailable = 10 + (4 * calculateModifier(attributeState.Intelligence))
+    const totalPointsSpent = Object.values(skillsState).reduce((sum, points) => sum + points, 0)
     const pointsRemaining = totalPointsAvailable - totalPointsSpent
 
     function changeSkillLevel(skillName: keyof Skill, delta: number) {
-        setSkills((prev) => {
+        setSkillsState((prev) => {
             const newValue = prev[skillName] + delta
             const totalSpent = Object.values(prev).reduce((sum, points) => sum + points, 0)
 
@@ -65,12 +56,12 @@ function Character() {
             <div className="character-attributes">
                 {
                     ATTRIBUTE_LIST.map((attr, idx) => {
-                        const modifier = calculateModifier(attributeLevel[attr])
+                        const modifier = calculateModifier(attributeState[attr])
                         const modifierStr = modifier > 0 ? `+${modifier}` : `${modifier}`
                         return (
                             <div className="character-attribute-row" key={idx}>
                                 <span className="character-attribute-name">{attr}:</span>
-                                <span className="character-attribute-value">{ attributeLevel[attr] }</span>
+                                <span className="character-attribute-value">{ attributeState[attr] }</span>
                                 <span className="character-attribute-modifier">(Modifier: {modifierStr})</span>
                                 <button onClick={() => changeAttributeLevel(attr as keyof Attributes, -1)}>-</button>
                                 <button onClick={() => changeAttributeLevel(attr as keyof Attributes, 1)}>+</button>
@@ -111,8 +102,8 @@ function Character() {
             <div className="character-skills">
                 <h4>Total points: {totalPointsAvailable} (Available) | {pointsRemaining} (Remaining)</h4>
                 {SKILL_LIST.map((skill) => {
-                    const attributeModifier = attributeLevel[skill.attributeModifier as keyof Attributes]
-                    const skillTotalValue = skills[skill.name] + Math.floor((attributeModifier - 10) / 2)
+                    const attributeModifier = attributeState[skill.attributeModifier as keyof Attributes]
+                    const skillTotalValue = skillsState[skill.name] + Math.floor((attributeModifier - 10) / 2)
                     return (
                         <div className="character-skill-row" key={skill.name}>
                             <span className="character-skill-name">{skill.name}:</span>
@@ -127,6 +118,11 @@ function Character() {
             </div>
         </div>
     )
+}
+
+interface CharacterProps {
+    data: DndCharacterData,
+    onUpdate: (updatedCharacter: DndCharacterData) => void;
 }
 
 export default Character

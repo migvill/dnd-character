@@ -12,3 +12,9 @@ export type Attributes = {
 export type Class = "Barbarian" | "Wizard" | "Bard";
 
 export type Skill = Record<typeof SKILL_LIST[number]['name'], number>;
+
+export type DndCharacterData = {
+    id: number;
+    attributes: Attributes;
+    skills: Skill;
+}
